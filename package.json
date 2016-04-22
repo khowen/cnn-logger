@@ -7,7 +7,7 @@
     "generate-authors": "tools/generate-authors.sh",
     "generate-changelog": "changelog-maker --group",
     "generate-docs": "rm -rf docs && esdoc -c .esdoc.json",
-    "start": "ENVIRONMENT=local PORT=5000 CONSOLE_LOGLEVEL=silly node server.js",
+    "start": "ENVIRONMENT=local PORT=5000 CONSOLE_LOGLEVEL=important node $(jq -r .main package.json)",
     "test": "eslint . && test/validate-json-files.sh",
     "update-apply": "ncu -u",
     "update-check": "ncu"
@@ -21,12 +21,12 @@
   },
   "homepage": "https://github.com/cnnlabs/cnn-logger",
   "engines": {
-    "node": ">=4.3.1"
+    "node": "5.10.1"
   },
   "dependencies": {
     "request": "2.69.0",
-    "winston": "2.1.1",
-    "winston-udp": "0.0.5"
+    "winston": "2.2.0",
+    "winston-udp": "0.0.6"
   },
   "devDependencies": {
     "changelog-maker": "2.2.0",

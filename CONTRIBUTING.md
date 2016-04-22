@@ -69,7 +69,7 @@ header has a special format that includes a **subsystem** and a
 <footer>
 ```
 
-Any line of the commit message cannot be longer 100 characters.  Make sure in
+Any line of the commit message cannot be longer 80 characters.  Make sure in
 commit messages you:
 
 - use the imperative, present tense: "change" not "changed" nor "changes"

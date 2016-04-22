@@ -23,6 +23,45 @@
 
 
 ## Local development
+CNN Logger can be added to projects as a dependency with full support for logging to the console and/or cloud based log management products.
+
+Currently, the only cloud based log management product support is [Loggly](https://www.loggly.com/).
+
+This logger is built on top of Winston and takes advantage of Transports to allow logging to multiple endpoints.
+
+##Contents
+[Example Usage]()
+[Requirements]()
+[Configuration]()
+[How to:]()
+	[Send all logs to loggly, tagged by environment]()
+	[Only send production logs to Loggly]()
+	[Add as a dependency]()
+	[Contribute to this project]()
+
+##Example Usage
+###Just the logs:
+```
+let log = require('cnn-logger')({ loggly: {tag: 'my-unique-loggly-tag'} });
+
+log.info('Did you know CNN Center started as an amusement park?');
+log.silly('Knock Knock');
+log.debug('Grabbing the Raid');
+log.verbose('.......ibid.......');
+log.warn('');
+log.error('');
+log.fatal('');
+log.important('');
+```
+
+###Configuring custom functions/transports:
+```
+const log = require('cnn-logger')(config.get('logConfig'),
+	fileTransport = require('cnn-logger').winston.transports.File;
+
+require('winston-udp').UDP;
+
+```
 
 
 ## Requirements
@@ -30,8 +69,24 @@
 A current LTS or Stable version of [Node.js](https://nodejs.org).  We recommend
 using [nvm](https://github.com/creationix/nvm#readme) to manage node versions.
 
+## Installation
+### Add to project:
 
-### Local install
+1. Add to package.json:
+	```
+	"dependencies": {
+		"cnn-logger": "git@github.com:cnnlabs/cnn-logger.git"
+	}
+	```
+
+2. ```
+	$ npm install
+
+
+	```
+
+
+### Local install:
 
 Clone this repository, install the above requirements, then:
 

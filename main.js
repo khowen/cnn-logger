@@ -3,7 +3,7 @@
 const winston = require('winston'),
     transports = require('./transports');
 
-let logger,
+let Logger,
     consoleLoggerLevel;
 
 require('winston-udp');
@@ -101,9 +101,86 @@ if (process.env.NODE_ENV === 'test') {
     consoleLoggerLevel = process.env.CONSOLE_LOGGER_LEVEL || 'silly';
 }
 
-logger = new Logger;
+Logger = new Logger; //changed to Logger from logger when added logger() from mss-logger
 
-logger.addConsole(consoleLoggerLevel);
+Logger.addConsole(consoleLoggerLevel);
+
+
+
+//added from mss-logger
+function logger(config) {
+    var winston = require('winston'),
+        Logger,
+        Loggly,
+        logLevel;
+
+    config = config || {};
+    config.console = config.console || {};
+    config.loggly = config.loggly || {};
+
+    logLevel = process.env.LOGLEVEL || config.defaultLogLevel || 'warn';
+    Loggly = require('winston-loggly').Loggly;
+
+
+    Logger = new winston.Logger({
+        levels: {
+            silly: 0,
+            debug: 10,
+            verbose: 20,
+            info: 30,
+            warn: 40,
+            error: 50,
+            fatal: 60,
+            important: 70
+        },
+
+        colors: {
+            silly: 'grey',
+            debug: 'blue',
+            verbose: 'cyan',
+            info: 'green',
+            warn: 'yellow',
+            error: 'red',
+            fatal: 'magenta',
+            important: 'green'
+        },
+
+        transports: [
+            new winston.transports.Console({
+                colorize: config.console.colorize || true,
+                timestamp: true,
+                level: process.env.CONSOLE_LOGLEVEL || config.console.level || logLevel
+            })
+        ]
+    });
+
+    if (typeof config.loggly.tag !== 'undefined') {
+        Logger.add(winston.transports.Loggly,
+            {
+                inputToken: config.loggly.inputToken || '95046b00-1712-4c94-ac16-0fc74a29a399',
+                json: config.loggly.json || true,
+                level: process.env.LOGGLY_LOGLEVEL || config.loggly.level || logLevel,
+                stripColors: config.loggly.stripColors || true,
+                subdomain: config.loggly.subdomain || 'mssturnerapps',
+                tags: [config.loggly.tag]
+            }
+        );
+    }
+
+    if (config.prependString) {
+        Object.keys(Logger.levels).forEach(function (level) {
+            Logger[level] = function (msg) {
+                arguments[0] = config.prependString + msg;
+                var args = [level].concat(Array.prototype.slice.call(arguments));
+                Logger.log.apply(Logger, args);
+            };
+        });
+    }
+
+    return Logger;
+}
+
 
 module.exports = logger;
+module.exports = Logger;
 module.exports.winston = winston;
