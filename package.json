@@ -24,17 +24,17 @@
     "node": ">=4.3.1"
   },
   "dependencies": {
-    "request": "2.69.0",
-    "winston": "2.1.1",
-    "winston-udp": "0.0.5"
+    "request": "2.72.0",
+    "winston": "2.2.0",
+    "winston-udp": "0.0.6"
   },
   "devDependencies": {
-    "changelog-maker": "2.2.0",
-    "esdoc": "0.4.5",
-    "eslint": "2.2.0",
+    "changelog-maker": "2.2.3",
+    "esdoc": "0.4.7",
+    "eslint": "2.11.1",
     "jq-cli-wrapper": "0.3.0",
     "jsonlint": "1.6.2",
-    "npm-check-updates": "2.5.8"
+    "npm-check-updates": "2.6.5"
   },
   "keywords": [
     "cnn",
